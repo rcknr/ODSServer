@@ -1,10 +1,11 @@
 var http = require('http');
 var plist = require('plist');
 var fs = require('fs');
+var mdns = require('mdns');
 
 var ODSserver = 'ODS/1.0';
 
-var fsImage = fs.openSync('Fedora-16-x86_64-netinst.iso', 'r');
+var fsImage = fs.openSync('image.iso', 'r');
 var fsStat = fs.fstatSync(fsImage);
 
 function error404(res) {
@@ -87,4 +88,18 @@ http.createServer(function (req, res) {
 		return;
 	}
 	route(req, res);
+
+	var ad = mdns.createAdvertisement(mdns.tcp('odisk'), 65432, {
+		name: 'ODSServer',
+		txtRecord: {
+			disk2s0: 'adVN=DiskImage',
+			adVT: 'public.cd-media',
+			sys: 'waMA=A4:BA:DB:E7:89:CD',
+			adVF: '0x4',
+			adDT: '0x3',
+			adCC: '1'
+		}
+	});
+	ad.start();
+
 }).listen(65432, "0.0.0.0");

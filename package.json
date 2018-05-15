@@ -1,0 +1,23 @@
+{
+  "name": "odsserver",
+  "version": "1.0.0",
+  "description": "ODS basically uses http range requests to fetch blocks off a disk image which is advertised via mdns.",
+  "main": "ODSServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcknr/ODSServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcknr/ODSServer/issues"
+  },
+  "homepage": "https://github.com/rcknr/ODSServer#readme",
+  "dependencies": {
+    "mdns": "^2.4.0",
+    "plist": "^3.0.1"
+  }
+}
