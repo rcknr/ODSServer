@@ -89,13 +89,14 @@ http.createServer(function (req, res) {
 	}
 	route(req, res);
 
-	var ad = mdns.createAdvertisement(mdns.tcp('odisk'), 65432, {
-		name: 'ODSServer',
-		txtRecord: {
-			disk1: 'adVN=LABEL,adVT=public.cd-media',
-			sys: 'waMA=A4:BA:DB:E7:89:CD,adVF=0x4,adDT=0x3,adCC=1'
-		}
-	});
-	ad.start();
-
 }).listen(65432, "0.0.0.0");
+
+
+var ad = mdns.createAdvertisement(mdns.makeServiceType('odisk', 'tcp'), 65432, {
+	name: 'ODSServer',
+	txtRecord: {
+		disk1: 'adVN=LABEL,adVT=public.cd-media',
+		sys: 'waMA=FF:FF:FF:FF:FF:FF,adVF=0x4,adDT=0x3,adCC=1'
+	}
+});
+ad.start();
