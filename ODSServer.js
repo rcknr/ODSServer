@@ -1,7 +1,7 @@
 var http = require('http');
-var plist = require('plist');
 var fs = require('fs');
 var mdns = require('mdns');
+var os = require('os');
 
 var ODSserver = 'ODS/1.0';
 
@@ -91,12 +91,16 @@ http.createServer(function (req, res) {
 
 }).listen(65432, "0.0.0.0");
 
-
-var ad = mdns.createAdvertisement(mdns.makeServiceType('odisk', 'tcp'), 65432, {
-	name: 'ODSServer',
-	txtRecord: {
-		disk1: 'adVN=LABEL,adVT=public.cd-media',
-		sys: 'waMA=FF:FF:FF:FF:FF:FF,adVF=0x4,adDT=0x3,adCC=1'
-	}
+fs.read(fsImage, new Buffer(32), 0, 32, 32808, function (err, bytesRead, buffer) {
+	var label = buffer.toString().trim(),
+		ifaces = os.networkInterfaces(),
+		macAddress = ifaces[Object.keys(ifaces)[1]][1].mac,
+		ad = mdns.createAdvertisement(mdns.makeServiceType('odisk', 'tcp'), 65432, {
+			name: os.hostname(),
+			txtRecord: {
+				disk1: 'adVN=' + label + ',adVT=public.cd-media',
+				sys: 'waMA=' + macAddress + ',adVF=0x4,adDT=0x3,adCC=1'
+			}
+		});
+	ad.start();
 });
-ad.start();
