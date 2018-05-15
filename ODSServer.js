@@ -76,7 +76,7 @@ function image(req, res) {
 }
 
 routing = {
-	'/disk2s0.dmg': image
+	'/disk1.dmg': image
 };
 
 http.createServer(function (req, res) {
@@ -92,12 +92,8 @@ http.createServer(function (req, res) {
 	var ad = mdns.createAdvertisement(mdns.tcp('odisk'), 65432, {
 		name: 'ODSServer',
 		txtRecord: {
-			disk2s0: 'adVN=DiskImage',
-			adVT: 'public.cd-media',
-			sys: 'waMA=A4:BA:DB:E7:89:CD',
-			adVF: '0x4',
-			adDT: '0x3',
-			adCC: '1'
+			disk1: 'adVN=LABEL,adVT=public.cd-media',
+			sys: 'waMA=A4:BA:DB:E7:89:CD,adVF=0x4,adDT=0x3,adCC=1'
 		}
 	});
 	ad.start();
